@@ -21,6 +21,8 @@ DB_CONFIG = {
     "port":"49676",
     }
 
+print("DEPLOY TEST")
+
 
 
 

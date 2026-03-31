@@ -8,16 +8,16 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: email.trim(),
-        password: password.trim()
-      })
-    })
+   fetch("https://parking-management-system-6.onrender.com/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    email,
+    password
+  })
+})
       .then(res => res.json())
       .then(data => {
         if (data.status === "success") {

@@ -11,11 +11,11 @@ app = Flask(__name__)
 CORS(app)
 
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "Bobby",
-    "password": "Bobby_09876",
-    "database": "smart_parking_system",
-}
+    "host": "h hopper.proxy.rlwy.net",
+    "user": "root ",
+    "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX ",
+    "port":"49676",
+    }
 
 def get_connection():
     return mysql.connector.connect(**DB_CONFIG)

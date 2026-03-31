@@ -1,0 +1,60 @@
+/* Wrapper */
+.payments-wrapper {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+/* Title */
+.payments-title {
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  letter-spacing: 1px;
+}
+
+/* Grid */
+.payments-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 260px);
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Card */
+.pay-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 30px 20px;
+  cursor: pointer;
+
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.pay-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Icon */
+.icon {
+  font-size: 35px;
+  margin-bottom: 10px;
+}
+
+/* Title inside card */
+.pay-card h3 {
+  margin: 10px 0 5px;
+  color: #1e3a8a;
+  font-size: 20px;
+}
+
+/* Description */
+.pay-card p {
+  font-size: 13px;
+  color: #555;
+}

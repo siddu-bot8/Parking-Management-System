@@ -1,0 +1,38 @@
+.layout {
+  min-height: 100vh;
+
+  background: linear-gradient(
+      rgba(0,0,0,0.6),
+      rgba(0,0,0,0.6)
+    ),
+    url("../assets/parking-bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+
+/* NAVBAR */
+.navbar {
+  background: #1e3a8a;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  text-align: center;
+}
+
+/* CONTENT */
+.content {
+  padding: 40px;
+  text-align: center;
+}
+
+/* FOOTER */
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #1e3a8a;
+  color: white;
+  padding: 10px;
+  font-size: 14px;
+}

@@ -1,0 +1,53 @@
+.dashboard-container {
+  min-height: 100vh;
+
+  background: linear-gradient(
+      rgba(0,0,0,0.6),
+      rgba(0,0,0,0.6)
+    ),
+    url("../assets/parking-bg.jpg");
+
+  background-size: cover;
+  background-position: center;
+
+  color: white;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.dashboard-buttons {
+  margin-top: 40px;
+}
+
+.dashboard-buttons button {
+  margin: 10px;
+  padding: 12px 20px;
+  border: none;
+  background: #00c6ff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.dash-container {
+  text-align: center;
+  color: white;
+  padding: 30px;
+}
+
+.dash-buttons button {
+  margin: 10px;
+  padding: 10px 20px;
+  background: #2563eb;
+  border: none;
+  color: white;
+  border-radius: 8px;
+}
+
+.card {
+  background: white;
+  color: black;
+  padding: 20px;
+  margin: 20px auto;
+  width: 300px;
+  border-radius: 10px;
+}

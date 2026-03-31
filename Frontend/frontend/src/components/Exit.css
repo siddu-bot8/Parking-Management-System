@@ -1,0 +1,244 @@
+/* Container */
+.exit-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: auto;
+}
+
+/* Card */
+.form-card {
+  
+  padding: 5px;
+  border-radius: 20px;
+  width: 600px;
+  padding: 25px;
+}
+
+/* Titles */
+
+
+.subtitle {
+  margin-bottom: 10px;
+}
+
+/* Input */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+}
+
+.primary {
+  background: black;
+  color: white;
+}
+
+.secondary {
+  background: gray;
+  color: white;
+}
+
+.success {
+  background: green;
+  color: white;
+}
+
+.danger {
+  background: red;
+  color: white;
+}
+
+/* Bill Box */
+.bill-box {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Status */
+.status {
+  text-align: center;
+  font-weight: bold;
+}
+
+.paid {
+  color: green;
+}
+
+.unpaid {
+  color: red;
+}
+
+.process{
+    text-align: center;
+    text-decoration: double;
+    color: burlywood;
+
+}
+
+.section {
+  margin-top: 25px;
+  
+}
+
+.success-text {
+  color: green;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.question {
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.primary {
+  background: black;
+  color: white;
+}
+
+.success {
+  background: green;
+  color: white;
+}
+
+.danger {
+  background: red;
+  color: white;
+}
+
+.secondary {
+  background: gray;
+  color: white;
+}
+
+.bill-box {
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.status {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.paid {
+  color: green;
+}
+
+.unpaid {
+  color: red;
+}
+
+.receipt-box {
+  background: rgb(23, 22, 22);
+  padding: 20px;
+  border-radius: 8px;
+  width: 60px;
+}
+
+.center {
+  text-align: center;
+}
+
+.small {
+  font-size: 14px;
+  color: gray;
+}
+.label {
+  text-align: left;
+  color: #555;
+}
+.value {
+  text-align: right;
+  font-weight: 600;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 140px 1fr;  /* 🔥 FIXED WIDTH */
+  padding: 6px 0;
+  font-size: 14px;
+}
+.row span:first-child {
+  color: #555;
+}
+.row span:last-child {
+  font-weight: 600;
+}
+
+.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.status {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.paid {
+  color: green;
+}
+
+.unpaid {
+  color: red;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #receipt, #receipt * {
+    visibility: visible;
+  }
+
+  #receipt {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .btn-group {
+    display: none;
+  }
+}

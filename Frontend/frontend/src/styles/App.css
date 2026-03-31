@@ -1,0 +1,177 @@
+/* 🌈 Background */
+body {
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* 📦 Card Container */
+.form-container {
+  max-width: 420px;
+  margin: 80px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* 🧾 Headings */
+h2, h3 {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* 🔤 Inputs */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+input:focus, select:focus {
+  border-color: #4b6cb7;
+  outline: none;
+  box-shadow: 0 0 5px rgba(75,108,183,0.5);
+}
+
+/* 🔘 Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* 🧾 Bill Box */
+.bill-box {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  background: #f5f7fa;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+
+.bill-box p {
+  margin: 5px 0;
+}
+
+/* 🔁 Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.nav-buttons button {
+  width: 48%;
+}
+
+/* 🏠 Home Cards */
+.home-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.card-box {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.card-box:hover {
+  transform: scale(1.05);
+}
+
+/* 🎨 Different Colors */
+.entry { background: #4b6cb7; }
+.exit { background: #28a745; }
+.payment { background: #ffc107; color: black; }
+.reports { background: #dc3545; }
+
+/* 🧭 Navbar */
+.navbar-custom {
+  background: #4b6cb7;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: white !important;
+}
+
+/* 🦶 Footer */
+.footer {
+  background: #4b6cb7;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+.receipt-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.receipt-box {
+  width: 300px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: monospace;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  border: 2px dashed #ccc;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.receipt-row.total {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+hr {
+  border-top: 1px dashed #aaa;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .receipt-box, .receipt-box * {
+    visibility: visible;
+  }
+  .receipt-box {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}

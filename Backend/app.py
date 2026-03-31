@@ -10,12 +10,19 @@ import mysql.connector
 app = Flask(__name__)
 CORS(app)
 
+
+
+
 DB_CONFIG = {
-    "host": "h hopper.proxy.rlwy.net",
+    "host": "hopper.proxy.rlwy.net",
     "user": "root ",
-    "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX ",
+    "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX",
+    "database":"railway",
     "port":"49676",
     }
+
+
+
 
 def get_connection():
     try:
@@ -25,6 +32,9 @@ def get_connection():
         return conn
     except Exception as e:
         print("DB Error:", e)
+
+print("Conncting DB on startup ..")
+get_connection()
 
 @app.route("/")
 def home():
@@ -270,7 +280,10 @@ def income():
 
     return jsonify(data)
 
-get_connection()
+if __name__ == "__main__":
+    print("Starting app...")
+    get_connection()
+    app.run(host="0.0.0.0", port=10000)
 
 
 

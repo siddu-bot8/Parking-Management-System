@@ -18,7 +18,13 @@ DB_CONFIG = {
     }
 
 def get_connection():
-    return mysql.connector.connect(**DB_CONFIG)
+    try:
+        print("Trying to connect DB...")
+        conn = mysql.connector.connect(**DB_CONFIG)
+        print("DB Connected ✅")
+        return conn
+    except Exception as e:
+        print("DB Error:", e)
 
 @app.route("/")
 def home():
@@ -263,6 +269,8 @@ def income():
     conn.close()
 
     return jsonify(data)
+
+get_connection()
 
 
 

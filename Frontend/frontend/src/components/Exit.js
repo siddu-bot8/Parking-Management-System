@@ -44,7 +44,7 @@ function Exit() {
     }
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/pay", {
+      const res = await fetch("https://parking-management-system-2.onrender.com/pay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

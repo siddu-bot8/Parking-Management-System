@@ -14,7 +14,7 @@ function Entry() {
 
   const handleSubmit = async () => {
   try {
-    const res = await fetch("https://parking-management-system-6.onrender.com/entry", {
+    const res = await fetch("https://parking-management-system-2.onrender.com/entry", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

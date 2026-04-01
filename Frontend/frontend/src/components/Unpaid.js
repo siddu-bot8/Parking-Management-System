@@ -6,7 +6,7 @@ function Unpaid() {
   const [data, setData] = useState([]);
 
   const load = async () => {
-    const res = await fetch("http://localhost:5000/all_unpaid");
+    const res = await fetch("https://parking-management-system-2.onrender.com/all_unpaid");
     const result = await res.json();
     setData(result);
   };
@@ -16,7 +16,7 @@ function Unpaid() {
     if (!window.confirm("Confirm Payment?")) return;
 
     try {
-      await fetch("http://localhost:5000/pay", {
+      await fetch("https://parking-management-system-2.onrender.com/pay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

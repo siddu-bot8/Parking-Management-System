@@ -7,7 +7,7 @@ function Active() {
 
   const load = async () => {
     try {
-      const res = await fetch("http://localhost:5000/active");
+      const res = await fetch("https://parking-management-system-2.onrender.com/active");
       const result = await res.json();
       setData(result);
     } catch (err) {

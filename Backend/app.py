@@ -46,9 +46,7 @@ get_connection()
 def home():
     return "Backend Running Successfully 🚀"
 
-# ===============================
-# ENTRY
-# ===============================
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -64,25 +62,34 @@ def login():
 
 @app.route('/entry', methods=['POST'])
 def entry():
-    data = request.json
-    conn = get_connection()
-    cursor = conn.cursor()
+    try:
+        data = request.json
 
-    cursor.callproc("AddVehicleEntry", (
-        data['vehicle'],
-        data['owner'],
-        data['type']
-    ))
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    conn.commit()
-    cursor.close()
-    conn.close()
+        cursor.callproc("AddVehicleEntry", (
+            data['vehicle'],
+            data['owner'],
+            data['type']
+        ))
 
-    return jsonify({"message": "Entry Successful"})
+        conn.commit()
+        cursor.close()
+        conn.close()
 
-# ===============================
-# EXIT
-# ===============================
+        return jsonify({
+            "status": "success",
+            "message": "Entry Successful"
+        })
+
+    except Exception as e:
+        print("ENTRY ERROR:", e)
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        })
+
 @app.route('/exit', methods=['POST'])
 def exit_vehicle():
     data = request.json

@@ -13,32 +13,36 @@ function Entry() {
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
-    try {
-      const res = await fetch("http://127.0.0.1:5000/entry", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ vehicle, owner, type })
-      });
+  try {
+    const res = await fetch("https://parking-management-system-6.onrender.com/entry", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ vehicle, owner, type })
+    });
 
-      const data = await res.json();
+    console.log("Status:", res.status);
 
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-      if (data.message) {
-        setEntryTime(new Date().toLocaleString()); // ✅ entry time set
-        setShowReceipt(true);
-      }
-
-    } catch (err) {
-      console.log(err);
-      alert("Server error ❌");
+    if (!res.ok) {
+      throw new Error("Server responded with error");
     }
-  };
+
+    const data = await res.json();
+    console.log("Response:", data);
+
+    if (data.status === "success") {
+      setEntryTime(new Date().toLocaleString());
+      setShowReceipt(true);
+    } else {
+      alert(data.message || "Entry failed ❌");
+    }
+
+  } catch (err) {
+    console.error("ERROR:", err);
+    alert("Server Error ❌");
+  }
+};
 
   const handlePrint = () => {
     window.print();

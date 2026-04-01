@@ -10,19 +10,19 @@ function Dashboard() {
   const [date, setDate] = useState("");
 
   const getUnpaid = async () => {
-    const res = await fetch("http://localhost:5000/all_unpaid");
+    const res = await fetch("https://parking-management-system-6.onrender.com/all_unpaid");
     const data = await res.json();
     setUnpaid(data);
   };
 
   const getActive = async () => {
-    const res = await fetch("http://localhost:5000/active");
+    const res = await fetch("https://parking-management-system-6.onrender.com/active");
     const data = await res.json();
     setActive(data);
   };
 
   const getIncome = async () => {
-    const res = await fetch(`http://localhost:5000/income?date=${date}`);
+    const res = await fetch(`https://parking-management-system-6.onrender.com/income?date=${date}`);
     const data = await res.json();
     setIncome(data.total_income || 0);
   };

@@ -14,7 +14,7 @@ function Exit() {
   // 🔹 Generate Bill
   const handleExit = async () => {
     try {
-      const res = await fetch("http://127.0.0.1:5000/exit", {
+      const res = await fetch("https://parking-management-system-6.onrender.com/exit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -44,7 +44,7 @@ function Exit() {
     }
 
     try {
-      const res = await fetch("https://parking-management-system-2.onrender.com/pay", {
+      const res = await fetch("https://parking-management-system-6.onrender.com/pay", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

@@ -12,7 +12,7 @@ function Report() {
   useEffect(() => {
     if (!selectedDate) return;
 
-    fetch(` https://parking-management-system-2.onrender.com/report?date=${selectedDate}`)
+    fetch(` https://parking-management-system-6.onrender.com/report?date=${selectedDate}`)
       .then(res => {
         if (!res.ok) {
           throw new Error("Server Error");

@@ -48,7 +48,7 @@ function PayBill() {
   if (!window.confirm("Confirm payment?")) return;
 
   try {
-    const res = await fetch("http://localhost:5000/pay", {
+    const res = await fetch("https://parking-management-system-6.onrender.com/pay", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

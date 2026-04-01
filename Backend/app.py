@@ -1,65 +1,52 @@
-import os
+import mysql.connector
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-
-import mysql.connector
-
-
-
-
-
 app = Flask(__name__)
-CORS(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-
-
-
-
+# ✅ FIXED DB CONFIG
 DB_CONFIG = {
     "host": "hopper.proxy.rlwy.net",
-    "user": "root ",
+    "user": "root",
     "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX",
-    "database":"smart_parking_system",
-    "port":"49676",
-    }
-
-print("DEPLOY TEST")
-
-
-
+    "database": "smart_parking_system",
+    "port": 49676
+}
 
 def get_connection():
     try:
-        print("Trying to connect DB...")
         conn = mysql.connector.connect(**DB_CONFIG)
         print("DB Connected ✅")
         return conn
     except Exception as e:
         print("DB Error:", e)
-
-print("Conncting DB on startup ..")
-get_connection()
+        return None
 
 @app.route("/")
 def home():
-    return "Backend Running Successfully 🚀"
+    return "Backend Running 🚀"
 
-
+# ===============================
+# LOGIN
+# ===============================
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
 
-    email = data.get('email')
-    password = data.get('password')
+        if email == "bps123@gmail.com" and password == "bps12345":
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({"status": "fail", "message": "Invalid credentials"})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
-   
-    if email == "bps123@gmail.com" and password == "bps12345":
-        return jsonify({"status": "success"})
-    
-    return jsonify({"status": "fail"})
-
+# ===============================
+# ENTRY
+# ===============================
 @app.route('/entry', methods=['POST'])
 def entry():
     try:
@@ -77,231 +64,223 @@ def entry():
         cursor.close()
         conn.close()
 
-        return jsonify({
-            "status": "success",
-            "message": "Entry Successful"
-        })
-
+        return jsonify({"status": "success", "message": "Entry Successful"})
     except Exception as e:
         print("ENTRY ERROR:", e)
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        })
+        return jsonify({"status": "error", "message": str(e)})
 
+# ===============================
+# EXIT
+# ===============================
 @app.route('/exit', methods=['POST'])
 def exit_vehicle():
-    data = request.json
-    vehicle_no = data.get("vehicle_no")
+    try:
+        vehicle = request.json.get("vehicle")
 
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    hours = 2.5
-    total = hours * 20
+        cursor.callproc("ExitVehicle2", (vehicle,))
+        conn.commit()
 
-    return jsonify({
-        "record_id": 1,
-        "hours": hours,
-        "total": total
-    })
+        cursor.close()
+        conn.close()
+
+        return jsonify({"status": "success", "message": "Exit Done"})
+    except Exception as e:
+        print("EXIT ERROR:", e)
+        return jsonify({"status": "error", "message": str(e)})
+
 # ===============================
-# PAY BILL
+# PAY
 # ===============================
 @app.route('/pay', methods=['POST'])
 def pay():
-    data = request.json
-    record_id = request.json['record_id']
+    try:
+        record_id = request.json.get("record_id")
 
-    conn = get_connection()
-    cursor = conn.cursor()
+        conn = get_connection()
+        cursor = conn.cursor()
 
-    cursor.callproc("MakePayment", (record_id,))
-    conn.commit()
+        cursor.callproc("ProcessPayment", (record_id,))
+        conn.commit()
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    return jsonify({"message": "Payment Successful"})
+        return jsonify({"status": "success", "message": "Payment Successful"})
+    except Exception as e:
+        print("PAY ERROR:", e)
+        return jsonify({"status": "error", "message": str(e)})
 
 # ===============================
-# GET BILL BY VEHICLE
+# GET UNPAID
 # ===============================
 @app.route('/get-unpaid', methods=['POST'])
 def get_unpaid():
-    vehicle = request.json['vehicle']
+    try:
+        vehicle = request.json.get("vehicle")
 
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("""
-    SELECT vehicle_no, owner_name,
-           (parking_fee + late_fee) AS total_due
-    FROM parking_records
-    WHERE payment_status = 'Pending'
-    AND exit_time IS NOT NULL
-""")
+        cursor.execute("""
+        SELECT vehicle_no, owner_name,
+               (parking_fee + late_fee) AS total_due
+        FROM parking_records
+        WHERE payment_status = 'Pending'
+        AND exit_time IS NOT NULL
+        AND vehicle_no = %s
+        """, (vehicle,))
 
-    data = cursor.fetchone()
+        data = cursor.fetchone()
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    if not data:
-        return jsonify({"error": "No unpaid record"}), 404
+        if not data:
+            return jsonify({"status": "fail", "message": "No unpaid record"})
 
-    return jsonify(data)
+        return jsonify({"status": "success", "data": data})
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)})
 
 # ===============================
 # ALL UNPAID
 # ===============================
 @app.route('/all_unpaid', methods=['GET'])
 def all_unpaid():
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+    try:
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("""
-    SELECT record_id, vehicle_no, owner_name, vehicle_type,
-           (parking_fee + late_fee) AS total_due
-    FROM parking_records
-    WHERE payment_status = 'Pending'
-    AND exit_time IS NOT NULL
-""")
-    data = cursor.fetchall()
+        cursor.execute("""
+        SELECT record_id, vehicle_no, owner_name, vehicle_type,
+               (parking_fee + late_fee) AS total_due
+        FROM parking_records
+        WHERE payment_status = 'Pending'
+        AND exit_time IS NOT NULL
+        """)
 
-    cursor.close()
-    conn.close()
+        data = cursor.fetchall()
 
-    return jsonify(data)
+        cursor.close()
+        conn.close()
+
+        return jsonify({"status": "success", "data": data})
+    except Exception as e:
+        return jsonify({"status": "error"})
 
 # ===============================
 # ACTIVE VEHICLES
 # ===============================
 @app.route('/active', methods=['GET'])
 def active():
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-    SELECT vehicle_no, owner_name, entry_time, exit_time
-    FROM parking_records
-    WHERE exit_time IS NULL
-""")
-
-    data = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    return jsonify(data)
-
-@app.route("/get-bill", methods=["POST"])
-def get_bill():
-    data = request.json
-    vehicle = data.get("vehicle_no")
-
-    if not vehicle:
-        return jsonify({"error": "vehicle_no missing"}), 400
-
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    cursor.execute("""
-    SELECT record_id, vehicle_no, owner_name,
-           (COALESCE(parking_fee,0) + COALESCE(late_fee,0)) AS total_due
-    FROM parking_records
-    WHERE vehicle_no = %s
-    AND payment_status = 'Pending'
-    AND exit_time IS NOT NULL
-    LIMIT 1
-""", (vehicle,))
-    
-
-
-    row = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-
-    if not row:
-        return jsonify({"error": "No unpaid bill found"})
-
-    return jsonify({
-        "record_id": row["record_id"],
-        "vehicle_no": row["vehicle_no"],
-        "owner_name": row["owner_name"],
-        "total_due": row["total_due"]
-    })
-
-@app.route('/report', methods=['GET'])
-def get_report():
     try:
-        date = request.args.get('date')
-
-        if not date:
-            return jsonify({"error": "Date required"}), 400
-
         conn = get_connection()
         cursor = conn.cursor(dictionary=True)
 
-        query = """
-        SELECT 
-            vehicle_no,
-            owner_name,
-            entry_time,
-            exit_time,
-            parking_fee,
-            late_fee,
-            (parking_fee + late_fee) AS total,
-            payment_status
-        FROM parking_records
-        WHERE DATE(entry_time) = %s
-        """
+        cursor.execute("SELECT * FROM active_vehicles")
 
-        cursor.execute(query, (date,))
         data = cursor.fetchall()
 
         cursor.close()
         conn.close()
 
-        return jsonify(data)
-
+        return jsonify({"status": "success", "data": data})
     except Exception as e:
-        print("ERROR:", e)   # 👈 SEE ERROR IN TERMINAL
-        return jsonify({"error": str(e)})
+        return jsonify({"status": "error"})
 
 # ===============================
-# DAILY INCOME
+# GET BILL
+# ===============================
+@app.route("/get-bill", methods=["POST"])
+def get_bill():
+    try:
+        vehicle = request.json.get("vehicle")
+
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+        SELECT record_id, vehicle_no, owner_name,
+               (COALESCE(parking_fee,0) + COALESCE(late_fee,0)) AS total_due
+        FROM parking_records
+        WHERE vehicle_no = %s
+        AND payment_status = 'Pending'
+        AND exit_time IS NOT NULL
+        LIMIT 1
+        """, (vehicle,))
+
+        row = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if not row:
+            return jsonify({"status": "fail", "message": "No unpaid bill"})
+
+        return jsonify({"status": "success", "data": row})
+    except Exception as e:
+        return jsonify({"status": "error"})
+
+# ===============================
+# REPORT
+# ===============================
+@app.route('/report', methods=['GET'])
+def get_report():
+    try:
+        date = request.args.get('date')
+
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+        SELECT vehicle_no, owner_name, entry_time, exit_time,
+               parking_fee, late_fee,
+               (parking_fee + late_fee) AS total,
+               payment_status
+        FROM parking_records
+        WHERE DATE(entry_time) = %s
+        """, (date,))
+
+        data = cursor.fetchall()
+
+        cursor.close()
+        conn.close()
+
+        return jsonify({"status": "success", "data": data})
+    except Exception as e:
+        print("REPORT ERROR:", e)
+        return jsonify({"status": "error"})
+
+# ===============================
+# INCOME
 # ===============================
 @app.route('/income', methods=['GET'])
 def income():
-    date = request.args.get('date')
+    try:
+        date = request.args.get('date')
 
-    conn = get_connection()
-    cursor = conn.cursor(dictionary=True)
+        conn = get_connection()
+        cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("""
+        cursor.execute("""
         SELECT SUM(parking_fee + late_fee) AS total_income
         FROM parking_records
         WHERE DATE(entry_time) = %s
         AND payment_status = 'Paid'
-    """, (date,))
+        """, (date,))
 
-    data = cursor.fetchone()
+        data = cursor.fetchone()
 
-    cursor.close()
-    conn.close()
+        cursor.close()
+        conn.close()
 
-    return jsonify(data)
+        return jsonify({"status": "success", "data": data})
+    except Exception as e:
+        return jsonify({"status": "error"})
 
 if __name__ == "__main__":
-    print("Starting app...")
-    get_connection()
+    print("Starting app 🚀")
     app.run(host="0.0.0.0", port=10000)
-
-
-print("FINAL VERSION DEPLOY 🚀")
-
-
-
-
-
-

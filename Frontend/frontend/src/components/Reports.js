@@ -20,7 +20,7 @@ function Report() {
         return res.json();
       })
       .then(data => {
-        setReport(data);
+        setReport(data.data);
       })
       .catch(err => {
         console.error("Fetch Error:", err);
@@ -28,13 +28,10 @@ function Report() {
       });
   }, [selectedDate]);
 
-  // ===============================
-  // CALCULATE TOTAL REVENUE
-  // ===============================
-  const totalRevenue = report.reduce(
-    (sum, item) => sum + (item.total || 0),
-    0
-  );
+  
+ const totalRevenue = Array.isArray(report)
+  ? report.reduce((sum, item) => sum + (item.total || 0), 0)
+  : 0; 
 
   return (
     <Layout>

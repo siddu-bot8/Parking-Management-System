@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import Layout from "./Layout";
 import "./Active.css";
-q
+
 
 function Active() {
   const [data, setData] = useState([]);

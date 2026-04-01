@@ -11,7 +11,7 @@ function PayBill() {
   // ✅ FETCH BILL
   const fetchBill = async () => {
     try {
-      const res = await fetch("http://localhost:5000/get-bill", {
+      const res = await fetch("https://parking-management-system-6.onrender.com/get-bill", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

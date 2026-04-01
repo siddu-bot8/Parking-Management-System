@@ -189,7 +189,7 @@ def active():
 
         return jsonify({"status": "success", "data": data})
     except Exception as e:
-        return jsonify({"status": "error"})
+        return jsonify({"status": "error", "message": str(e)})
 
 # ===============================
 # GET BILL

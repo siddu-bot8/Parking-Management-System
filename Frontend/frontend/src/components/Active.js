@@ -22,10 +22,7 @@ function Active() {
     }
   };
 
-  useEffect(() => {
-    load();
-  }, []);
-
+  
   return (
     <Layout>
       <div className="active-container">

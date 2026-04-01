@@ -21,7 +21,7 @@ DB_CONFIG = {
     "host": "hopper.proxy.rlwy.net",
     "user": "root ",
     "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX",
-    "database":"railway",
+    "database":"smart_parking_system",
     "port":"49676",
     }
 
@@ -68,11 +68,10 @@ def entry():
         conn = get_connection()
         cursor = conn.cursor()
 
-        cursor.callproc("AddVehicleEntry", (
-            data['vehicle'],
-            data['owner'],
-            data['type']
-        ))
+        cursor.execute("""
+        INSERT INTO parking_records (vehicle_no, owner_name, vehicle_type, entry_time, payment_status)
+        VALUES (%s, %s, %s, NOW(), 'Pending')
+        """, (data['vehicle'], data['owner'], data['type']))
 
         conn.commit()
         cursor.close()

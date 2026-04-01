@@ -11,7 +11,7 @@ function Active() {
       const res = await fetch("https://parking-management-system-6.onrender.com/active");
       const result = await res.json();
 
-      setData(data);
+      setData(result);
 
       
 
@@ -23,7 +23,8 @@ function Active() {
 
   useEffect(() => {
     load();
-  }, []);
+    
+  }, [load]);
 
   return (
     <Layout>

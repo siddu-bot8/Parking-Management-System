@@ -11,11 +11,9 @@ function Active() {
       const res = await fetch("https://parking-management-system-6.onrender.com/active");
       const result = await res.json();
 
-      if (result.status === "success") {
-        setData(result.data);
-      } else {
-        alert("No data found ❌");
-      }
+      setData(data);
+
+      
 
     } catch (err) {
       console.error(err);

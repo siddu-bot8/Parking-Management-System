@@ -21,7 +21,7 @@ DB_CONFIG = {
     "host": "hopper.proxy.rlwy.net",
     "user": "root ",
     "password": "NCEDYtQEakNjndYTWquRYeRoYwygvuZX",
-    "database":"railway",
+    "database":"smart_parking_system",
     "port":"49676",
     }
 

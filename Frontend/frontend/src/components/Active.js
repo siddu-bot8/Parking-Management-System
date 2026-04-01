@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Layout from "./Layout";
 import "./Active.css";
+q
 
 function Active() {
   const [data, setData] = useState([]);
@@ -22,7 +23,10 @@ function Active() {
     }
   };
 
-  
+  useEffect(() => {
+    load();
+  }, []);
+
   return (
     <Layout>
       <div className="active-container">

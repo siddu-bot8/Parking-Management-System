@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState} from "react";
 import Layout from "./Layout";
 import "./Active.css";
 
@@ -6,7 +6,7 @@ import "./Active.css";
 function Active() {
   const [data, setData] = useState([]);
 
-  const load = async () => {
+const load = async () => {
     try {
       const res = await fetch("https://parking-management-system-6.onrender.com/active");
       const result = await res.json();
@@ -21,10 +21,7 @@ function Active() {
     }
   };
 
-  useEffect(() => {
-    load();
-    
-  }, [load]);
+ 
 
   return (
     <Layout>

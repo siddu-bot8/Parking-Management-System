@@ -6,9 +6,6 @@ function Report() {
   const [selectedDate, setSelectedDate] = useState("");
   const [report, setReport] = useState([]);
 
-  // ===============================
-  // FETCH REPORT DATA
-  // ===============================
   useEffect(() => {
     if (!selectedDate) return;
 

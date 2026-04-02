@@ -1,32 +1,24 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Layout from "./Layout";
 import "./Active.css";
-
 
 function Active() {
   const [data, setData] = useState([]);
 
-const load = async () => {
+  const load = async () => {
     try {
       const res = await fetch("https://parking-management-system-6.onrender.com/active");
       const result = await res.json();
-
       setData(result);
-
-      
-
     } catch (err) {
       console.error(err);
       alert("Error loading active vehicles ❌");
     }
   };
 
- 
-
   return (
     <Layout>
       <div className="active-container">
-
         <h2>🚗 Active Vehicles</h2>
 
         <button className="load-btn" onClick={load}>
@@ -62,7 +54,6 @@ const load = async () => {
             )}
           </tbody>
         </table>
-
       </div>
     </Layout>
   );
